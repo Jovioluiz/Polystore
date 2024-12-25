@@ -1,0 +1,19 @@
+﻿[btnConectar]
+Coordinates=150,20,74,51
+
+[Layout1]
+Coordinates=10,78,53,33
+
+[grdConsulta]
+Coordinates=10,10,74,51
+Visible=True
+LayerNames="vl_medio;vl_unitario;cd_clifor;vl_subst_medio"
+
+[]
+Coordinates=103,80,82,33
+
+[Module Settings]
+ModelLayerNames=NewLayer0;cd_clifor;vl_unitario;vl_medio;"vl_medio;vl_unitario;cd_clifor";"vl_medio;vl_unitario;cd_clifor/vl_subst_medio";"vl_medio;vl_unitario;cd_clifor;vl_subst_medio"
+ActiveLayerNames=NewLayer0
+EditingLayerName=vl_medio;vl_unitario;cd_clifor
+
