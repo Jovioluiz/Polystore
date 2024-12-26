@@ -3,17 +3,17 @@ unit uConexaoMySQL;
 interface
 
 uses
-  uConexao, FireDAC.Comp.Client, FireDAC.Phys.MySQL, IniFiles, System.SysUtils;
+  uConexao, FireDAC.Comp.Client, FireDAC.Phys.MySQL, IniFiles, System.SysUtils,
+  uConexaoBase;
 
 type
-  TConexaoMySQL = class(TInterfacedObject, IConexao)
+  TConexaoMySQL = class(TConexaoBase)
   private
     FConnection: TFDConnection;
     FDriver: TFDPhysMySQLDriverLink;
   public
-    function Conectar: IConexao;
-    function Conectado: Boolean;
-    function Conexao: TFDConnection;
+    function GetConexao: TFDConnection; override;
+    function Conectado: Boolean; override;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -29,17 +29,25 @@ begin
   Result := FConnection.Connected;
 end;
 
-function TConexaoMySQL.Conectar: IConexao;
+function TConexaoMySQL.GetConexao: TFDConnection;
+begin
+  Result := FConnection;
+end;
+
+constructor TConexaoMySQL.Create;
 var
   conexaoIni: TIniFile;
 begin
+  FConnection := TFDConnection.Create(nil);
+  FDriver := TFDPhysMySQLDriverLink.Create(nil);
+
   conexaoIni := TIniFile.Create('.\conexao.ini');
   try
     try
       FConnection.DriverName := 'MySQL';
       FConnection.Params.Values['Server'] := conexaoIni.ReadString('configuracoesMySQL', 'servidorMy', '');
       if FConnection.Params.Values['Server'].IsEmpty then
-        Exit(nil);
+        Exit();
 
       FConnection.Params.Database := conexaoIni.ReadString('configuracoesMySQL', 'bancoMy', '');
       FConnection.Params.UserName := conexaoIni.ReadString('configuracoesMySQL', 'usuarioMy', '');
@@ -49,7 +57,6 @@ begin
       FConnection.LoginPrompt := False;
       FConnection.Connected := True;
 
-      Result := Self;
     except
       on e: Exception do
       begin
@@ -60,17 +67,6 @@ begin
   finally
     conexaoIni.Free;
   end;
-end;
-
-function TConexaoMySQL.Conexao: TFDConnection;
-begin
-  Result := FConnection;
-end;
-
-constructor TConexaoMySQL.Create;
-begin
-  FConnection := TFDConnection.Create(nil);
-  FDriver := TFDPhysMySQLDriverLink.Create(nil);
 end;
 
 destructor TConexaoMySQL.Destroy;

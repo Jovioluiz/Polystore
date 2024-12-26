@@ -64,10 +64,10 @@ object frmPrincipal: TfrmPrincipal
       end
     end
     object btnConsultar: TButton
-      Position.X = 8.000000000000000000
-      Position.Y = 88.000000000000000000
+      Position.X = 103.000000000000000000
+      Position.Y = 16.000000000000000000
       Size.Width = 80.000000000000000000
-      Size.Height = 33.000000000000000000
+      Size.Height = 30.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
       Text = 'Consultar'

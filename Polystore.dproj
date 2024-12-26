@@ -5,7 +5,7 @@
         <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">Polystore</ProjectName>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -159,6 +159,7 @@
         <DCCReference Include="src\Consulta\uConsultaPostgreSQL.pas"/>
         <DCCReference Include="src\Consulta\uConsultas.pas"/>
         <DCCReference Include="src\Consulta\uManipuladorConsultas.pas"/>
+        <DCCReference Include="src\Conexoes\uConexaoBase.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -200,7 +201,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Executavel\Polystore.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Executavel\32\Polystore.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Polystore.exe</RemoteName>
                         <Overwrite>true</Overwrite>

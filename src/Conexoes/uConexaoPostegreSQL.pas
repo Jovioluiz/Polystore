@@ -3,17 +3,17 @@ unit uConexaoPostegreSQL;
 interface
 
 uses
-  uConexao, FireDAC.Comp.Client, Firedac.Stan.Def, FireDAC.Phys.PG, System.SysUtils;
+  uConexao, FireDAC.Comp.Client, Firedac.Stan.Def, FireDAC.Phys.PG, System.SysUtils,
+  uConexaoBase;
 
 type
-  TConexaoPostegreSQL = class(TInterfacedObject, IConexao)
+  TConexaoPostegreSQL = class(TConexaoBase)
   private
     FConnection: TFDConnection;
     FDriver: TFDPhysPgDriverLink;
   public
-    function Conectar: IConexao;
-    function Conectado: Boolean;
-    function Conexao: TFDConnection;
+    function GetConexao: TFDConnection; override;
+    function Conectado: Boolean; override;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -29,11 +29,19 @@ begin
   Result := FConnection.Connected;
 end;
 
-function TConexaoPostegreSQL.Conectar: IConexao;
+function TConexaoPostegreSQL.GetConexao: TFDConnection;
+begin
+  Result := FConnection;
+end;
+
+constructor TConexaoPostegreSQL.Create;
 var
   conexaoIni: TIniFile;
 begin
-  conexaoIni := TIniFile.Create('.\conexao.ini');
+  FConnection := TFDConnection.Create(nil);
+  FDriver := TFDPhysPgDriverLink.Create(nil);
+
+    conexaoIni := TIniFile.Create('.\conexao.ini');
   try
     try
       FConnection.DriverName := 'PG';
@@ -46,8 +54,6 @@ begin
       FDriver.VendorLib := '.\lib\libpq.dll';
       FConnection.TxOptions.AutoCommit := False;
       FConnection.Connected := True;
-
-      Result := Self;
     except
       on e: Exception do
       begin
@@ -58,18 +64,6 @@ begin
   finally
     conexaoIni.Free;
   end;
-end;
-
-function TConexaoPostegreSQL.Conexao: TFDConnection;
-begin
-  Result := FConnection;
-end;
-
-constructor TConexaoPostegreSQL.Create;
-begin
-  //criar a estrutura que verifica se a conexao já está instanciada
-  FConnection := TFDConnection.Create(nil);
-  FDriver := TFDPhysPgDriverLink.Create(nil);
 end;
 
 destructor TConexaoPostegreSQL.Destroy;

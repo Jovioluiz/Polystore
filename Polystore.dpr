@@ -13,7 +13,8 @@ uses
   dConsultas in 'src\Consulta\dConsultas.pas' {dmConsultas: TDataModule},
   uConsultaPostgreSQL in 'src\Consulta\uConsultaPostgreSQL.pas',
   uConsultas in 'src\Consulta\uConsultas.pas',
-  uManipuladorConsultas in 'src\Consulta\uManipuladorConsultas.pas';
+  uManipuladorConsultas in 'src\Consulta\uManipuladorConsultas.pas',
+  uConexaoBase in 'src\Conexoes\uConexaoBase.pas';
 
 {$R *.res}
 

@@ -47,6 +47,9 @@ end;
 
 procedure TfrmPrincipal.btnConsultarClick(Sender: TObject);
 begin
+  if not Assigned(FManipuladorConsultas) then
+    raise Exception.Create('Necessário conectar nos bancos primeiramente.');
+
   FManipuladorConsultas.PostgreSQL.CarregaValoresMedios;
 end;
 

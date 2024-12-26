@@ -6,9 +6,8 @@ uses
   uConexaoPostegreSQL;
 
 type
-  TConsultasPostgreSQL = class
+  TConsultasPostgreSQL = class(TConexaoPostegreSQL)
   private
-    FConexao: TConexaoPostegreSQL;
   public
     procedure CarregaValoresMedios;
 
@@ -37,7 +36,7 @@ const
 var
   consulta: TConsultas;
 begin
-  consulta := TConsultas.Create(FConexao);
+  consulta := TConsultas.Create(Self);
   try
     consulta.Open(SQL);
   finally
@@ -47,7 +46,7 @@ end;
 
 constructor TConsultasPostgreSQL.Create;
 begin
-  FConexao := TConexaoPostegreSQL.Create;
+
 end;
 
 end.

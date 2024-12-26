@@ -30,9 +30,9 @@ uses
 
 procedure TManipuladorConexao.ConectarBancos;
 begin
-  FPostgreSQL.Conectar;
-  FMySQL.Conectar;
-  FMariaDB.Conectar;
+//  FPostgreSQL.Conectar;
+//  FMySQL.Conectar;
+//  FMariaDB.Conectar;
 end;
 
 constructor TManipuladorConexao.Create;

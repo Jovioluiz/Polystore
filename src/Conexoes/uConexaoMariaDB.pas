@@ -3,20 +3,18 @@ unit uConexaoMariaDB;
 interface
 
 uses
-  uConexao, FireDAC.Comp.Client, FireDAC.Phys.MySQL, System.SysUtils;
+  FireDAC.Comp.Client, FireDAC.Phys.MySQL, System.SysUtils, uConexaoBase;
 
 type
-  TConexaoMariaDB = class(TInterfacedObject, IConexao)
+  TConexaoMariaDB = class(TConexaoBase)
   private
     FConnection: TFDConnection;
     FDriver: TFDPhysMySQLDriverLink;
   public
-    function Conectar(): IConexao;
-    function Conectado: Boolean;
-    function Conexao: TFDConnection;
+    function GetConexao: TFDConnection; override;
+    function Conectado: Boolean; override;
     constructor Create;
     destructor Destroy; override;
-
   end;
 
 implementation
@@ -31,18 +29,25 @@ begin
   Result := FConnection.Connected;
 end;
 
-function TConexaoMariaDB.Conectar: IConexao;
+function TConexaoMariaDB.GetConexao: TFDConnection;
+begin
+  Result := FConnection;
+end;
+
+constructor TConexaoMariaDB.Create;
 var
   conexaoIni: TIniFile;
 begin
+  FConnection := TFDConnection.Create(nil);
+  FDriver := TFDPhysMySQLDriverLink.Create(nil);
 
-  conexaoIni := TIniFile.Create('.\conexao.ini');
+    conexaoIni := TIniFile.Create('.\conexao.ini');
   try
     try
       FConnection.DriverName := 'MySQL';
       FConnection.Params.Values['Server'] := conexaoIni.ReadString('configuracoesMariaDB', 'servidor', '');
       if FConnection.Params.Values['Server'].IsEmpty then
-        Exit(nil);
+        Exit();
 
       FConnection.Params.Database := conexaoIni.ReadString('configuracoesMariaDB', 'banco', '');
       FConnection.Params.UserName := conexaoIni.ReadString('configuracoesMariaDB', 'usuario', '');
@@ -52,8 +57,6 @@ begin
       FDriver.VendorLib := '.\lib\libmysql.dll';
       FConnection.LoginPrompt := False;
       FConnection.Connected := True;
-
-      Result := Self;
     except
       on e: Exception do
       begin
@@ -64,17 +67,6 @@ begin
   finally
     conexaoIni.Free;
   end;
-end;
-
-function TConexaoMariaDB.Conexao: TFDConnection;
-begin
-  Result := FConnection;
-end;
-
-constructor TConexaoMariaDB.Create;
-begin
-  FConnection := TFDConnection.Create(nil);
-  FDriver := TFDPhysMySQLDriverLink.Create(nil);
 end;
 
 destructor TConexaoMariaDB.Destroy;
