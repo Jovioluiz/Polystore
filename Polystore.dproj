@@ -147,7 +147,7 @@
         </DCCReference>
         <DCCReference Include="src\Conexoes\uConexao.pas"/>
         <DCCReference Include="src\Conexoes\uConexaoMySQL.pas"/>
-        <DCCReference Include="src\Conexoes\uConexaoPostegreSQL.pas"/>
+        <DCCReference Include="src\Conexoes\uConexaoPostgreSQL.pas"/>
         <DCCReference Include="src\Conexoes\uManipuladorConexao.pas"/>
         <DCCReference Include="src\Conexoes\uConexaoMariaDB.pas"/>
         <DCCReference Include="src\Excecoes\uExcecoes.pas"/>

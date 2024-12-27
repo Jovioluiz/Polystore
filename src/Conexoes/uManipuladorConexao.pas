@@ -3,28 +3,25 @@ unit uManipuladorConexao;
 interface
 
 uses
-  uConexao;
+  uConexao, uConexaoMariaDB, uConexaoMySQL, uConexaoPostgreSQL;
 
 type
   TManipuladorConexao = class
   private
-    FPostgreSQL,
-    FMySQL,
-    FMariaDB: IConexao;
+    FPostgreSQL: TConexaoPostgreSQL;
+    FMySQL: TConexaoMySQL;
+    FMariaDB: TConexaoMariaDB;
   public
     constructor Create;
     destructor Destroy; override;
     procedure ConectarBancos;
 
-    property PostgreSQL: IConexao read FPostgreSQL;
-    property MySQL: IConexao read FMySQL;
-    property MariaDB: IConexao read FMariaDB;
+    property PostgreSQL: TConexaoPostgreSQL read FPostgreSQL;
+    property MySQL: TConexaoMySQL read FMySQL;
+    property MariaDB: TConexaoMariaDB read FMariaDB;
   end;
 
 implementation
-
-uses
-  uConexaoPostegreSQL, uConexaoMySQL, uConexaoMariaDB;
 
 { TManipuladorConexao }
 
@@ -37,7 +34,7 @@ end;
 
 constructor TManipuladorConexao.Create;
 begin
-  FPostgreSQL := TConexaoPostegreSQL.Create;
+  FPostgreSQL := TConexaoPostgreSQL.GetInstancia;
   FMySQL := TConexaoMySQL.Create;
   FMariaDB := TConexaoMariaDB.Create;
 end;

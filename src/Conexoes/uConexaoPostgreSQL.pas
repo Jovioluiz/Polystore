@@ -1,4 +1,4 @@
-unit uConexaoPostegreSQL;
+unit uConexaoPostgreSQL;
 
 interface
 
@@ -7,14 +7,18 @@ uses
   uConexaoBase;
 
 type
-  TConexaoPostegreSQL = class(TConexaoBase)
+  TConexaoPostgreSQL = class(TConexaoBase)
   private
+    class var Instancia: TConexaoPostgreSQL;
     FConnection: TFDConnection;
     FDriver: TFDPhysPgDriverLink;
+  protected
+    constructor Create;
   public
     function GetConexao: TFDConnection; override;
     function Conectado: Boolean; override;
-    constructor Create;
+    class function GetInstancia: TConexaoPostgreSQL;
+    class procedure ReleaseInstance;
     destructor Destroy; override;
   end;
 implementation
@@ -24,17 +28,30 @@ uses
 
 { TConexaoPostegreSQL }
 
-function TConexaoPostegreSQL.Conectado: Boolean;
+function TConexaoPostgreSQL.Conectado: Boolean;
 begin
   Result := FConnection.Connected;
 end;
 
-function TConexaoPostegreSQL.GetConexao: TFDConnection;
+function TConexaoPostgreSQL.GetConexao: TFDConnection;
 begin
   Result := FConnection;
 end;
 
-constructor TConexaoPostegreSQL.Create;
+class function TConexaoPostgreSQL.GetInstancia: TConexaoPostgreSQL;
+begin
+  if not Assigned(Instancia) then
+    Instancia := TConexaoPostgreSQL.Create;
+  Result := Instancia;
+end;
+
+class procedure TConexaoPostgreSQL.ReleaseInstance;
+begin
+  if Assigned(Instancia) then
+    Instancia.Free;
+end;
+
+constructor TConexaoPostgreSQL.Create;
 var
   conexaoIni: TIniFile;
 begin
@@ -66,11 +83,16 @@ begin
   end;
 end;
 
-destructor TConexaoPostegreSQL.Destroy;
+destructor TConexaoPostgreSQL.Destroy;
 begin
   FConnection.Free;
   FDriver.Free;
   inherited;
 end;
+
+initialization
+
+finalization
+  TConexaoPostgreSQL.ReleaseInstance;
 
 end.

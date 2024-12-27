@@ -6,7 +6,7 @@ uses
   uConexao, FireDAC.Comp.Client;
 
 type
-  TConexaoBase = class(TInterfacedObject, IConexao)
+  TConexaoBase = class(TConexao)
 
   public
     function GetConexao: TFDConnection; virtual; abstract;

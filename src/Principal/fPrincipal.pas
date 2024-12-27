@@ -7,7 +7,8 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FireDAC.Phys.MySQLDef,
   FireDAC.Stan.Intf, FireDAC.Phys, FireDAC.Phys.MySQL, uManipuladorConexao,
-  System.Rtti, FMX.Grid.Style, FMX.ScrollBox, FMX.Grid, uManipuladorConsultas;
+  System.Rtti, FMX.Grid.Style, FMX.ScrollBox, FMX.Grid, uManipuladorConsultas,
+  FireDAC.UI.Intf, FireDAC.FMXUI.Wait, FireDAC.Comp.UI;
 
 type
   TfrmPrincipal = class(TForm)
@@ -20,6 +21,7 @@ type
     qt_vendida_media: TFloatColumn;
     cd_clifor: TIntegerColumn;
     btnConsultar: TButton;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     procedure btnConectarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

@@ -3,10 +3,10 @@ unit uConsultaPostgreSQL;
 interface
 
 uses
-  uConexaoPostegreSQL;
+  uConexaoPostgreSQL;
 
 type
-  TConsultasPostgreSQL = class(TConexaoPostegreSQL)
+  TConsultasPostgreSQL = class(TConexaoPostgreSQL)
   private
   public
     procedure CarregaValoresMedios;
@@ -34,9 +34,9 @@ const
         ' GROUP BY ' +
         ' 	cd_clifor  ';
 var
-  consulta: TConsultas;
+  consulta: TConsultaSQL;
 begin
-  consulta := TConsultas.Create(Self);
+  consulta := TConsultaSQL.GetConsultaSQL(Self, SQL);
   try
     consulta.Open(SQL);
   finally

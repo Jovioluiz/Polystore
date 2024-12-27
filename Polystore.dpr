@@ -6,7 +6,7 @@ uses
   fPrincipal in 'src\Principal\fPrincipal.pas' {frmPrincipal},
   uConexao in 'src\Conexoes\uConexao.pas',
   uConexaoMySQL in 'src\Conexoes\uConexaoMySQL.pas',
-  uConexaoPostegreSQL in 'src\Conexoes\uConexaoPostegreSQL.pas',
+  uConexaoPostgreSQL in 'src\Conexoes\uConexaoPostgreSQL.pas',
   uManipuladorConexao in 'src\Conexoes\uManipuladorConexao.pas',
   uConexaoMariaDB in 'src\Conexoes\uConexaoMariaDB.pas',
   uExcecoes in 'src\Excecoes\uExcecoes.pas',
