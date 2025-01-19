@@ -3,16 +3,18 @@ unit uManipuladorConsultas;
 interface
 
 uses
-  uConsultaPostgreSQL;
+  dConsultas, uConexaoBase;
 
 type
   TManipuladorConsultas = class
+
   private
-    FPostgreSQL: TConsultasPostgreSQL;
+    FDados: TdmConsultas;
+    FConexao: TConexaoBase;
   public
-    constructor Create;
+    constructor Create; virtual;
     destructor Destroy; override;
-    property PostgreSQL: TConsultasPostgreSQL read FPostgreSQL;
+    property Dados: TdmConsultas read FDados write FDados;
   end;
 
 implementation
@@ -21,12 +23,12 @@ implementation
 
 constructor TManipuladorConsultas.Create;
 begin
-  FPostgreSQL := TConsultasPostgreSQL.Create;
+  FDados := TdmConsultas.Create(nil);
 end;
 
 destructor TManipuladorConsultas.Destroy;
 begin
-  FPostgreSQL.Free;
+  FDados.Free;
   inherited;
 end;
 

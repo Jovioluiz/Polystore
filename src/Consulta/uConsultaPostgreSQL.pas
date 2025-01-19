@@ -10,7 +10,6 @@ type
   private
   public
     procedure CarregaValoresMedios;
-
     constructor Create;
   end;
 
@@ -28,6 +27,8 @@ const
         ' 	sum(vl_total) / count(*) AS vl_total_medio, ' +
         ' 	sum(icms_subst_vl_base) / count(*) AS vl_subst_medio, ' +
         ' 	sum(qt_compra_venda) / count(*) AS qt_vendida_media, ' +
+        '   sum(ipi_vl_base) / count(*) AS vl_ipi_medio, ' +
+        '   sum(icms_normal_vl_base) / count(*) AS vl_icms_normal_medio,  ' +
         ' 	cd_clifor ' +
         ' FROM ' +
         ' 	NFC ' +

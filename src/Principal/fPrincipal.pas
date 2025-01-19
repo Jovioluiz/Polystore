@@ -3,33 +3,24 @@ unit fPrincipal;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
-  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FireDAC.Phys.MySQLDef,
-  FireDAC.Stan.Intf, FireDAC.Phys, FireDAC.Phys.MySQL, uManipuladorConexao,
-  System.Rtti, FMX.Grid.Style, FMX.ScrollBox, FMX.Grid, uManipuladorConsultas,
-  FireDAC.UI.Intf, FireDAC.FMXUI.Wait, FireDAC.Comp.UI;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.ExtCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.StdCtrls, uManipuladorConexao, uManipuladorConsultasPostgreSQL;
 
 type
   TfrmPrincipal = class(TForm)
-    Layout1: TLayout;
     btnConectar: TButton;
-    grdConsulta: TGrid;
-    vl_unitario_medio: TCurrencyColumn;
-    vl_total_medio: TCurrencyColumn;
-    vl_subst_medio: TCurrencyColumn;
-    qt_vendida_media: TFloatColumn;
-    cd_clifor: TIntegerColumn;
     btnConsultar: TButton;
-    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    grdConsultas: TDBGrid;
+    pnlFundo: TPanel;
     procedure btnConectarClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     FManipuladorConexao: TManipuladorConexao;
-    FManipuladorConsultas: TManipuladorConsultas;
+    FManipuladorConsultas: TManipuladorConsultasPostgreSQL;
   public
+    { Public declarations }
   end;
 
 var
@@ -37,14 +28,15 @@ var
 
 implementation
 
-
-{$R *.fmx}
+{$R *.dfm}
 
 procedure TfrmPrincipal.btnConectarClick(Sender: TObject);
 begin
   FManipuladorConexao := TManipuladorConexao.Create;
-  FManipuladorConsultas := TManipuladorConsultas.Create;
+  FManipuladorConsultas := TManipuladorConsultasPostgreSQL.Create;
   FManipuladorConexao.ConectarBancos;
+
+  grdConsultas.DataSource :=  FManipuladorConsultas.Dados.dsPostgres;
 end;
 
 procedure TfrmPrincipal.btnConsultarClick(Sender: TObject);
@@ -52,12 +44,7 @@ begin
   if not Assigned(FManipuladorConsultas) then
     raise Exception.Create('Necessário conectar nos bancos primeiramente.');
 
-  FManipuladorConsultas.PostgreSQL.CarregaValoresMedios;
-end;
-
-procedure TfrmPrincipal.FormCreate(Sender: TObject);
-begin
-//  grdConsulta.Live
+  FManipuladorConsultas.CarregaValoresMedios;
 end;
 
 procedure TfrmPrincipal.FormDestroy(Sender: TObject);
