@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.ExtCtrls, Vcl.Grids,
-  Vcl.DBGrids, Vcl.StdCtrls, uManipuladorConexao, uManipuladorConsultasPostgreSQL;
+  Vcl.DBGrids, Vcl.StdCtrls, uManipuladorConexao, uManipuladorConsultasPostgreSQL,
+  FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Stan.Intf, FireDAC.Comp.UI;
 
 type
   TfrmPrincipal = class(TForm)
@@ -13,6 +14,7 @@ type
     btnConsultar: TButton;
     grdConsultas: TDBGrid;
     pnlFundo: TPanel;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     procedure btnConectarClick(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -32,10 +34,12 @@ implementation
 
 procedure TfrmPrincipal.btnConectarClick(Sender: TObject);
 begin
-  FManipuladorConexao := TManipuladorConexao.Create;
-  FManipuladorConsultas := TManipuladorConsultasPostgreSQL.Create;
-  FManipuladorConexao.ConectarBancos;
-
+  if not Assigned(FManipuladorConexao) then
+  begin
+    FManipuladorConexao := TManipuladorConexao.Create;
+    FManipuladorConsultas := TManipuladorConsultasPostgreSQL.Create;
+    FManipuladorConexao.ConectarBancos;
+  end;
   grdConsultas.DataSource :=  FManipuladorConsultas.Dados.dsPostgres;
 end;
 
